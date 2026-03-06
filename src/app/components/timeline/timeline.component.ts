@@ -19,22 +19,21 @@ interface ColDef { label: string; subLabel: string; isToday: boolean; }
 export class TimelineComponent implements AfterViewInit {
   @ViewChild('rightScroll') rightScrollRef!: ElementRef<HTMLElement>;
 
-  svc   = inject(TimelineService);
+  svc = inject(TimelineService);
   TODAY = (() => { const d = new Date(); d.setHours(0,0,0,0); return d; })();
-  NOW   = new Date();
+  NOW = new Date();
 
   private MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  private MONTHS_FULL  = ['January','February','March','April','May','June',
-                          'July','August','September','October','November','December'];
-  private DAYS         = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  private MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  private DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-  private COL_W:   Record<ZoomLevel, number> = { hour: 90,  day: 56,  week: 110, month: 130 };
-  private TOTAL_N: Record<ZoomLevel, number> = { hour: 48,  day: 60,  week: 26,  month: 14  };
+  private COL_W : Record<ZoomLevel, number> = { hour: 90,  day: 56,  week: 110, month: 130 };
+  private TOTAL_N : Record<ZoomLevel, number> = { hour: 48,  day: 60,  week: 26,  month: 14  };
 
   hoveredWcId = signal<string | null>(null);
 
-  colWidth   = computed(() => this.COL_W[this.svc.zoom()]);
-  totalCols  = computed(() => this.TOTAL_N[this.svc.zoom()]);
+  colWidth = computed(() => this.COL_W[this.svc.zoom()]);
+  totalCols = computed(() => this.TOTAL_N[this.svc.zoom()]);
   totalWidth = computed(() => this.totalCols() * this.colWidth());
 
   rangeStart = computed<Date>(() => {
@@ -50,10 +49,10 @@ export class TimelineComponent implements AfterViewInit {
   });
 
   cols = computed<ColDef[]>(() =>
-    Array.from({ length: this.totalCols() }, (_, i) => ({
-      label:    this.buildLabel(i),
-      subLabel: this.buildSubLabel(i),
-      isToday:  this.isTodayCol(i)
+    Array.from({ length : this.totalCols() }, (_, i) => ({
+      label : this.buildLabel(i),
+      subLabel : this.buildSubLabel(i),
+      isToday : this.isTodayCol(i)
     }))
   );
 
@@ -73,21 +72,21 @@ export class TimelineComponent implements AfterViewInit {
   }
 
   barStyle(wo: WorkOrderDocument): { left: string; width: string } {
-    const cw   = this.colWidth();
+    const cw = this.colWidth();
     const unit = this.unitMs();
-    const s    = new Date(wo.data.startDate);
-    const e    = new Date(wo.data.endDate);
-    const left  = Math.round((s.getTime() - this.rangeStart().getTime()) / unit * cw);
+    const s = new Date(wo.data.startDate);
+    const e = new Date(wo.data.endDate);
+    const left = Math.round((s.getTime() - this.rangeStart().getTime()) / unit * cw);
     const width = Math.max(40, Math.round((e.getTime() - s.getTime()) / unit * cw));
     return { left: left + 'px', width: width + 'px' };
   }
 
   onRowClick(wcId: string, event: MouseEvent) {
     if ((event.target as HTMLElement).closest('app-work-order-bar')) return;
-    const row     = event.currentTarget as HTMLElement;
+    const row = event.currentTarget as HTMLElement;
     const scrollL = this.rightScrollRef.nativeElement.scrollLeft;
-    const xInRow  = event.clientX - row.getBoundingClientRect().left + scrollL;
-    const colIdx  = Math.floor(xInRow / this.colWidth());
+    const xInRow = event.clientX - row.getBoundingClientRect().left + scrollL;
+    const colIdx = Math.floor(xInRow / this.colWidth());
     const clicked = new Date(this.rangeStart().getTime() + colIdx * this.unitMs());
     this.svc.openCreatePanel(wcId, this.toIsoString(clicked));
   }
@@ -102,9 +101,9 @@ export class TimelineComponent implements AfterViewInit {
 
   private unitMs(): number {
     const z = this.svc.zoom();
-    if (z === 'hour')  return 3_600_000;
-    if (z === 'day')   return 86_400_000;
-    if (z === 'week')  return 7 * 86_400_000;
+    if (z === 'hour') return 3_600_000;
+    if (z === 'day') return 86_400_000;
+    if (z === 'week') return 7 * 86_400_000;
     return 30 * 86_400_000;
   }
 
@@ -118,26 +117,25 @@ export class TimelineComponent implements AfterViewInit {
     if (z === 'hour') {
       const now = this.NOW;
       return d.getFullYear() === now.getFullYear() &&
-             d.getMonth()    === now.getMonth()    &&
-             d.getDate()     === now.getDate()     &&
-             d.getHours()    === now.getHours();
+              d.getMonth() === now.getMonth() &&
+              d.getDate() === now.getDate() &&
+              d.getHours() === now.getHours();
     }
     if (z === 'day') return d.toDateString() === this.TODAY.toDateString();
     if (z === 'week') {
       const end = new Date(d.getTime() + 6 * 86_400_000);
       return this.TODAY >= d && this.TODAY <= end;
     }
-    return d.getFullYear() === this.TODAY.getFullYear() &&
-           d.getMonth()    === this.TODAY.getMonth();
+    return d.getFullYear() === this.TODAY.getFullYear() && d.getMonth() === this.TODAY.getMonth();
   }
 
   private buildLabel(i: number): string {
     const d = this.colDate(i);
     const z = this.svc.zoom();
-    if (z === 'hour')  return String(d.getHours()).padStart(2, '0') + ':00';
-    if (z === 'day')   return this.DAYS[d.getDay()];
-    if (z === 'week')  return this.MONTHS_SHORT[d.getMonth()] + ' ' + d.getDate();
-    return this.MONTHS_FULL[d.getMonth()] + ' ' + d.getFullYear();
+    if (z === 'hour') return String(d.getHours()).padStart(2, '0') + ':00';
+    if (z === 'day') return this.DAYS[d.getDay()];
+    if (z === 'week') return this.MONTHS_SHORT[d.getMonth()] + ' ' + d.getDate();
+    return this.MONTHS_SHORT[d.getMonth()] + ' ' + d.getFullYear();
   }
 
   private buildSubLabel(i: number): string {

@@ -3,7 +3,8 @@
   <!-- NAOLOGIC TOP NAV -->
   <nav class="top-nav">
     <span class="logo">
-      <img src="assets/Shape.svg" alt="NaoLogic" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <img src="assets/Shape.svg" alt="NaoLogic"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
       <span class="logo-fallback" style="display:none">
         <span class="logo-nao">NAO</span><span class="logo-logic">LOGIC</span>
       </span>
@@ -18,19 +19,21 @@
     <div class="controls-row">
       <div class="timescale-wrap">
         <div class="timescale-group">
-          <span class="ts-label">Timescale</span>
+          <span class="ts-label">
+            <span class="timescale-text">
+              Timescale
+            </span>
+          </span>
           <button class="zoom-dropdown-btn" (click)="toggleDropdown($event)">
             {{ zoomLabel }}
-            <img src="assets/Down.svg" alt="" class="chevron-icon"
-                 [style.transform]="dropdownOpen ? 'rotate(180deg)' : 'rotate(0)'"
-                 onerror="this.style.display='none'">
+            <img src="assets/Down.svg" alt="" class="chevron-icon" >
           </button>
         </div>
         <div class="zoom-menu" *ngIf="dropdownOpen" (click)="$event.stopPropagation()">
-          <button class="zoom-option" [class.active]="zoom === 'hour'"  (click)="setZoom('hour')">Hour</button>
-          <button class="zoom-option" [class.active]="zoom === 'day'"   (click)="setZoom('day')">Day</button>
-          <button class="zoom-option" [class.active]="zoom === 'week'"  (click)="setZoom('week')">Week</button>
-          <button class="zoom-option" [class.active]="zoom === 'month'" (click)="setZoom('month')">Month</button>
+          <button class="zoom-option" [class.active]="zoom === 'hour'" (click)="setZoom('hour')"><span class="zoom-text">Hour</span></button>
+          <button class="zoom-option" [class.active]="zoom === 'day'" (click)="setZoom('day')"><span class="zoom-text">Day</span></button>
+          <button class="zoom-option" [class.active]="zoom === 'week'" (click)="setZoom('week')"><span class="zoom-text">Week</span></button>
+          <button class="zoom-option" [class.active]="zoom === 'month'" (click)="setZoom('month')"><span class="zoom-text">Month</span></button>
         </div>
       </div>
       <button class="today-btn" (click)="goToToday()">Today</button>

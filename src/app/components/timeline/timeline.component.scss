@@ -5,12 +5,11 @@
   flex: 1;
   overflow: hidden;
   border: 1px solid #e2e5ef;
-  border-radius: 8px;
 }
 
 /* LEFT PANEL */
 .left-panel {
-  width: 260px;
+  width: 380px;
   flex-shrink: 0;
   background: #fff;
   border-right: 1px solid #e2e5ef;
@@ -19,7 +18,7 @@
   flex-direction: column;
 }
 .left-header {
-  height: 52px;
+  height: 40px;
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -29,10 +28,10 @@
   flex-shrink: 0;
 }
 .wc-row {
-  height: 56px;
+  height: 48px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 31px;
   border-bottom: 1px solid #e2e5ef;
   font-size: 14px;
   color: #1a1a2e;
@@ -56,11 +55,12 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  background-color: rgba(247, 249, 252);
 }
 
 /* HEADER */
 .tl-header {
-  height: 52px;
+  height: 40px;
   display: flex;
   border-bottom: 1px solid #e2e5ef;
   position: sticky;
@@ -73,17 +73,17 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 0 8px 7px;
-  border-right: 1px solid #e2e5ef;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  color: rgba(104, 113, 150, 1);
   position: relative;
   user-select: none;
   &.today-col { background: #eef0fb; }
 }
 .current-pill {
   position: absolute;
-  top: 6px;
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
   background: #dde0f9;
@@ -111,9 +111,9 @@
 /* TODAY LINE — full height across all rows */
 .today-line-full {
   position: absolute;
-  top: 52px;   /* skip the sticky header */
+  top: 0px;   /* skip the sticky header */
   bottom: 0;
-  width: 1px;
+  width: 3px;
   background: #818cf8;
   z-index: 8;
   pointer-events: none;
@@ -121,13 +121,12 @@
 
 /* GRID ROW */
 .grid-row {
-  height: 56px;
+  height: 48px;
   display: flex;
   border-bottom: 1px solid #e2e5ef;
   position: relative;
   cursor: crosshair;
   flex-shrink: 0;
-  overflow: visible;
   transition: background 0.08s;
   &.hovered { background: #f5f6fc; }
 }
@@ -135,7 +134,6 @@
   flex-shrink: 0;
   height: 100%;
   border-right: 1px solid #e2e5ef;
-  &.today-cell { background: #eef0fb; }
 }
 
 /* ADD HINT */
@@ -162,7 +160,5 @@ app-work-order-bar {
   position: absolute;
   top: 9px;
   height: 38px;
-  z-index: 5;
   display: block;
-  overflow: visible;
 }

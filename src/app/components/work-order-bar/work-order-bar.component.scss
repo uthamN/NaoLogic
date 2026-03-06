@@ -2,11 +2,11 @@
   position: absolute;
   top: 9px;
   height: 38px;
-  z-index: 5;
   display: block;
+  overflow: visible;
 }
 
-// ── BAR ──────────────────────────────────────
+/* BAR */
 .bar {
   height: 38px;
   border-radius: 6px;
@@ -16,7 +16,7 @@
   gap: 6px;
   cursor: pointer;
   transition: filter 0.12s;
-  overflow: hidden;
+  overflow: visible;
   min-width: 60px;
   position: relative;
 
@@ -39,7 +39,7 @@
   min-width: 0;
 }
 
-// ── BADGE ─────────────────────────────────────
+/* BADGE */
 .bar-badge {
   font-size: 11.5px;
   font-weight: 500;
@@ -54,7 +54,7 @@
   &.blocked     { background: #fde68a; color: #92400e; }
 }
 
-// ── THREE-DOT MENU BTN ────────────────────────
+/* THREE-DOT BUTTON — space always reserved, icon hidden until hover */
 .menu-btn {
   width: 22px;
   height: 22px;
@@ -65,15 +65,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;         // always reserves the space
+  flex-shrink: 0;
   font-family: inherit;
   padding: 0;
-
-  // Hidden by default but space is preserved
-  visibility: hidden;     // use visibility not display/opacity so space is kept
+  visibility: hidden;
   transition: background 0.1s, color 0.1s;
-
-  svg { color: #9ca3af; }
+  color: #9ca3af;
 }
 
 .bar:hover .menu-btn {
@@ -81,26 +78,26 @@
 
   &:hover {
     background: rgba(0, 0, 0, 0.07);
-    svg { color: #374151; }
+    color: #374151;
   }
 }
 
-// ── DROPDOWN ──────────────────────────────────
+/* DROPDOWN — fixed position so it escapes all overflow clipping */
 .dropdown {
   position: fixed;
   background: #fff;
-  border: 1px solid #e2e5ef;
+  border: 1px solid #e2e5f0;
   border-radius: 8px;
   padding: 4px;
-  z-index: 9999;
+  z-index: 99999;
   min-width: 130px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   animation: dropIn 0.12s ease;
 }
 
 @keyframes dropIn {
   from { opacity: 0; transform: scale(0.96) translateY(-4px); }
-  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
 .drop-item {

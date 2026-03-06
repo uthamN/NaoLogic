@@ -16,7 +16,12 @@ export class WorkOrderBarComponent {
 
   svc = inject(TimelineService);
   el  = inject(ElementRef);
-  menuOpen = signal(false);
+
+  dropdownPos = signal({ top: 0, left: 0 });
+
+  get menuOpen(): boolean {
+    return this.svc.activeMenuId() === this.workOrder.docId;
+  }
 
   get statusLabel(): string {
     const map: Record<string, string> = {
@@ -31,24 +36,31 @@ export class WorkOrderBarComponent {
     this.svc.openEditPanel(this.workOrder);
   }
 
-  dropdownPos = signal({ top: 0, left: 0 });
-
   toggleMenu(e: MouseEvent) {
     e.stopPropagation();
-    if (!this.menuOpen()) {
-      const btn  = (e.currentTarget as HTMLElement).getBoundingClientRect();
-      this.dropdownPos.set({ top: btn.bottom + 4, left: btn.left - 100 });
+    if (this.menuOpen) {
+      this.svc.closeMenu();
+    } else {
+      const btn = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      this.dropdownPos.set({ top: btn.bottom + 4, left: btn.left - 108 });
+      this.svc.openMenu(this.workOrder.docId);
     }
-    this.menuOpen.update(v => !v);
   }
 
-  edit()   { this.menuOpen.set(false); this.svc.openEditPanel(this.workOrder); }
-  delete() { this.menuOpen.set(false); this.svc.deleteOrder(this.workOrder.docId); }
+  edit() {
+    this.svc.closeMenu();
+    this.svc.openEditPanel(this.workOrder);
+  }
+
+  delete() {
+    this.svc.closeMenu();
+    this.svc.deleteOrder(this.workOrder.docId);
+  }
 
   @HostListener('document:click', ['$event'])
   onDocClick(e: MouseEvent) {
     if (!this.el.nativeElement.contains(e.target as Node)) {
-      this.menuOpen.set(false);
+      this.svc.closeMenu();
     }
   }
 }
