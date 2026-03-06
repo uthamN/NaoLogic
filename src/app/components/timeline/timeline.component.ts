@@ -1,6 +1,6 @@
 import {
   Component, inject, computed, ElementRef, ViewChild,
-  AfterViewInit, signal
+  AfterViewInit, signal, effect
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { TimelineService } from '../../services/timeline.service';
@@ -17,6 +17,14 @@ interface ColDef { label: string; subLabel: string; isToday: boolean; }
   styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements AfterViewInit {
+  constructor() {
+    effect(() => {
+      const z = this.svc.zoom();
+      this.totalCols.set(this.TOTAL_N[z]);
+      this.extraLeft.set(0);
+      setTimeout(() => this.scrollToToday(), 60);
+    });
+  }
   @ViewChild('rightScroll') rightScrollRef!: ElementRef<HTMLElement>;
 
   svc = inject(TimelineService);
@@ -33,7 +41,8 @@ export class TimelineComponent implements AfterViewInit {
   hoveredWcId = signal<string | null>(null);
 
   colWidth = computed(() => this.COL_W[this.svc.zoom()]);
-  totalCols = computed(() => this.TOTAL_N[this.svc.zoom()]);
+  totalCols  = signal(this.TOTAL_N[this.svc.zoom()]);
+  extraLeft  = signal(0);
   totalWidth = computed(() => this.totalCols() * this.colWidth());
 
   rangeStart = computed<Date>(() => {
@@ -41,12 +50,12 @@ export class TimelineComponent implements AfterViewInit {
     if (z === 'hour') {
       const d = new Date(this.NOW);
       d.setMinutes(0, 0, 0);
-      d.setHours(d.getHours() - Math.floor(this.TOTAL_N['hour'] / 2));
+      d.setHours(d.getHours() - Math.floor(this.TOTAL_N['hour'] / 2) - this.extraLeft());
       return d;
     }
-    const half = Math.floor(this.TOTAL_N[z] / 2);
+    const half = Math.floor(this.TOTAL_N[z] / 2) + this.extraLeft();
     return new Date(this.TODAY.getTime() - half * this.unitMs());
-  });
+});
 
   cols = computed<ColDef[]>(() =>
     Array.from({ length : this.totalCols() }, (_, i) => ({
@@ -97,7 +106,37 @@ export class TimelineComponent implements AfterViewInit {
     el.scrollTo({ left: this.todayOffsetPx() - el.clientWidth / 2, behavior: 'smooth' });
   }
 
-  ngAfterViewInit() { setTimeout(() => this.scrollToToday(), 60); }
+  ngAfterViewInit() {
+    setTimeout(() => this.scrollToToday(), 60);
+
+    const el = this.rightScrollRef.nativeElement;
+    el.addEventListener('scroll', () => this.onScroll());
+  }
+
+  private onScroll() {
+    const el        = this.rightScrollRef.nativeElement;
+    const threshold = 300; // px from edge to trigger load
+    const CHUNK     = 12;  // how many cols to add at a time
+
+    // Near right edge — append columns
+    if (el.scrollWidth - el.scrollLeft - el.clientWidth < threshold) {
+      this.totalCols.update(n => n + CHUNK);
+    }
+
+    // Near left edge — prepend columns by expanding rangeStart
+    if (el.scrollLeft < threshold) {
+      const prevScrollWidth = el.scrollWidth;
+      this.totalCols.update(n => n + CHUNK);
+      this.extraLeft.update(n => n + CHUNK);
+
+      // After Angular updates the DOM, restore scroll position
+      // so the view doesn't jump
+      setTimeout(() => {
+        const added = el.scrollWidth - prevScrollWidth;
+        el.scrollLeft += added;
+      }, 0);
+    }
+  }
 
   private unitMs(): number {
     const z = this.svc.zoom();

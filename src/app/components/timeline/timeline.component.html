@@ -64,9 +64,8 @@
           [showBadge]="true"
         />
 
-        <!-- empty row hint -->
         <div *ngIf="ordersForWc(wc.docId).length === 0" class="add-hint">
-          Click to add dates
+            <span class="add-hint-tooltip">Click to add dates</span>
         </div>
       </div>
 
