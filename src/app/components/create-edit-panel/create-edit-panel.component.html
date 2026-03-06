@@ -62,7 +62,7 @@
           [class.active]="currentStatus === opt.value"
           (click)="selectStatus(opt.value, $event)"
         >
-          <span class="status-pill" [ngClass]="opt.value">{{ opt.label }}</span>
+          <span class="dropdown-item" [ngClass]="opt.value">{{ opt.label }}</span>
         </div>
       </div>
     </div>

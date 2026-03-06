@@ -9,7 +9,7 @@
 /* BAR */
 .bar {
   height: 38px;
-  border-radius: 6px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   padding: 0 8px 0 12px;
@@ -21,10 +21,10 @@
 
   &:hover { filter: brightness(0.96); }
 
-  &.open        { background: #e8eaf6; }
-  &.in-progress { background: #e8eaf6; }
-  &.complete    { background: #e6f4ea; }
-  &.blocked     { background: #fef9e7; }
+  &.complete        { background: rgba(248, 255, 243, 1); box-shadow: 0 0 0 1px rgba(209, 250, 179, 1);}
+  &.blocked { background: rgba(255, 252, 241, 1); box-shadow: 0 0 0 1px rgba(255, 245, 207, 1);}
+  &.open    { box-shadow: 0 0 0 1px rgba(206, 251, 255, 1);background-color: rgba(242, 254, 255, 1); }
+  &.in-progress     {box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);background-color: rgba(237, 238, 255, 1);}
 }
 
 .bar-name {
@@ -47,10 +47,23 @@
   white-space: nowrap;
   flex-shrink: 0;
 
-  &.open        { background: #c5caee; color: #3730a3; }
-  &.in-progress { background: #c5caee; color: #3730a3; }
-  &.complete    { background: #bbf7d0; color: #166534; }
-  &.blocked     { background: #fde68a; color: #92400e; }
+  &.open {
+    color: rgba(0, 176, 191, 1);
+    border: 1px solid rgba(206, 251, 255, 1);
+    background-color: rgba(228, 253, 255, 1);
+  }
+  &.in-progress {
+    background: rgba(214, 216, 255, 1);
+    color: rgba(62, 64, 219, 1);
+  }
+  &.complete {
+    background: rgba(225, 255, 204, 1);
+    color: rgba(8, 162, 104, 1);
+  }
+  &.blocked {
+    background: rgba(252, 238, 181, 1);
+    color: rgba(177, 54, 0, 1)
+  }
 }
 
 /* THREE-DOT BUTTON — space always reserved, icon hidden until hover */

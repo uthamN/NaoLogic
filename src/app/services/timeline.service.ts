@@ -35,17 +35,33 @@ export class TimelineService {
   closePanel() { this.panelState.set({ open: false, mode: 'create' }); }
 
   hasOverlap(wcId: string, start: string, end: string, excludeId?: string): boolean {
-    const toMs = (s: string) =>
-      new Date(s.includes('T') ? s : s + 'T00:00:00').getTime();
+    // Null-safe parser: bare YYYY-MM-DD treated as local midnight via T00:00:00
+    const toMs = (s: string | null | undefined): number => {
+      if (!s) return NaN;
+      return new Date(s.includes('T') ? s : s + 'T00:00:00').getTime();
+    };
 
     const newStart = toMs(start);
     const newEnd   = toMs(end);
 
+    // Guard: bail if form values are invalid (form validation should catch first)
+    if (isNaN(newStart) || isNaN(newEnd)) return false;
+
+    // Same-day start+end is zero-length — not a valid range
+    if (newEnd <= newStart) return false;
+
     return this.workOrders().some(wo => {
       if (wo.data.workCenterId !== wcId) return false;
       if (wo.docId === excludeId)        return false;
+
       const exStart = toMs(wo.data.startDate);
       const exEnd   = toMs(wo.data.endDate);
+
+      // Skip malformed stored orders
+      if (isNaN(exStart) || isNaN(exEnd)) return false;
+
+      // Ranges [a,b) and [c,d) overlap iff a < d AND b > c
+      // Touching endpoints are NOT an overlap
       return newStart < exEnd && newEnd > exStart;
     });
   }
