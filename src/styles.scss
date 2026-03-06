@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/* Circular Std font (as specified in brief) */
+@import url('https://naologic-com-assets.naologic.com/fonts/circular-std/circular-std.css');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: "Circular-Std", "Inter", system-ui, sans-serif;
+  background: #fff;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}

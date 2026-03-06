@@ -1,0 +1,108 @@
+<!-- Backdrop blur -->
+<div class="backdrop" [class.open]="panel().open" (click)="svc.closePanel()"></div>
+
+<!-- Full-width overlay panel -->
+<div class="panel-wrap" [class.open]="panel().open" (click)="closeStatusDropdown()">
+
+  <!-- HEADER -->
+  <div class="panel-head">
+    <div class="head-left">
+      <h2 class="panel-title">Work Order Details</h2>
+      <p class="panel-sub">Specify the dates, name and status for this order</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn-cancel" type="button" (click)="svc.closePanel()">Cancel</button>
+      <button class="btn-create" type="button" (click)="submit()">
+        {{ isEdit() ? 'Save' : 'Create' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="panel-divider"></div>
+
+  <!-- BODY -->
+  <div class="panel-body">
+
+    <!-- Work Order Name -->
+    <div class="field">
+      <label class="field-label">Work Order Name</label>
+      <input
+        [formControl]="f['name']"
+        class="field-input"
+        [class.err]="submitted && f['name'].invalid"
+        type="text"
+        placeholder="Acme Inc."
+        autocomplete="off"
+      />
+      <p class="err-msg" *ngIf="submitted && f['name'].hasError('required')">Name is required</p>
+    </div>
+
+    <!-- Status -->
+    <div class="field">
+      <label class="field-label">Status</label>
+
+      <!-- Selected pill (shown when a value is picked) -->
+      <div class="status-trigger" (click)="toggleStatus($event)">
+        <span class="status-pill" [ngClass]="currentStatus" *ngIf="currentStatus">
+          {{ statusLabel(currentStatus) }}
+        </span>
+        <span class="status-placeholder" *ngIf="!currentStatus">Select status</span>
+        <svg class="chevron" [class.flipped]="statusOpen()"
+             width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="status-menu" *ngIf="statusOpen()" (click)="$event.stopPropagation()">
+        <div
+          *ngFor="let opt of statusOpts"
+          class="status-menu-item"
+          [class.active]="currentStatus === opt.value"
+          (click)="selectStatus(opt.value, $event)"
+        >
+          <span class="status-pill" [ngClass]="opt.value">{{ opt.label }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start Date — full width -->
+    <div class="field">
+      <label class="field-label">Start Date</label>
+      <input
+        [formControl]="f['startDate']"
+        class="field-input"
+        [class.err]="submitted && f['startDate'].invalid"
+        type="date"
+        (change)="onStartChange()"
+      />
+      <p class="err-msg" *ngIf="submitted && f['startDate'].hasError('required')">Required</p>
+    </div>
+
+    <!-- End Date — full width -->
+    <div class="field">
+      <label class="field-label">End Date</label>
+      <input
+        [formControl]="f['endDate']"
+        class="field-input"
+        [class.err]="submitted && (f['endDate'].invalid || form.hasError('endBeforeStart'))"
+        type="date"
+      />
+      <p class="err-msg" *ngIf="submitted && (f['endDate'].hasError('required') || form.hasError('endBeforeStart'))">
+        Must be after start date
+      </p>
+    </div>
+
+    <!-- Overlap error -->
+    <div class="overlap-alert" *ngIf="overlapErr">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Overlaps with an existing work order on this work center.
+    </div>
+
+  </div>
+</div>

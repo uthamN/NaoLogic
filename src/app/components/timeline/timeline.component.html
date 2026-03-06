@@ -1,0 +1,76 @@
+<div class="tl-layout">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="left-header">Work Center</div>
+    <div
+      *ngFor="let wc of svc.workCenters()"
+      class="wc-row"
+      [class.hovered]="hoveredWcId() === wc.docId"
+      (mouseenter)="hoveredWcId.set(wc.docId)"
+      (mouseleave)="hoveredWcId.set(null)"
+    >{{ wc.data.name }}</div>
+  </div>
+
+  <!-- RIGHT SCROLLABLE -->
+  <div class="right-scroll" #rightScroll>
+    <div class="tl-inner" [style.width.px]="totalWidth()">
+
+      <!-- COLUMN HEADER -->
+      <div class="tl-header">
+        <div
+          *ngFor="let col of cols()"
+          class="col-head"
+          [class.today-col]="col.isToday"
+          [style.width.px]="colWidth()"
+        >
+          <span *ngIf="col.isToday" class="current-pill">
+            {{ svc.zoom() === 'month' ? 'Current month'
+             : svc.zoom() === 'week'  ? 'Current week'
+             : svc.zoom() === 'hour'  ? 'Current hour'
+             : 'Today' }}
+          </span>
+          <span class="col-main">{{ col.label }}</span>
+          <span *ngIf="col.subLabel" class="col-sub">{{ col.subLabel }}</span>
+        </div>
+      </div>
+
+      <!-- TODAY LINE — spans full height of all rows -->
+      <div class="today-line-full" [style.left.px]="todayOffsetPx()"></div>
+
+      <!-- GRID ROWS -->
+      <div
+        *ngFor="let wc of svc.workCenters()"
+        class="grid-row"
+        [class.hovered]="hoveredWcId() === wc.docId"
+        (mouseenter)="hoveredWcId.set(wc.docId)"
+        (mouseleave)="hoveredWcId.set(null)"
+        (click)="onRowClick(wc.docId, $event)"
+      >
+        <!-- background grid cells -->
+        <div
+          *ngFor="let col of cols()"
+          class="grid-cell"
+          [class.today-cell]="col.isToday"
+          [style.width.px]="colWidth()"
+        ></div>
+
+        <!-- work order bars -->
+        <app-work-order-bar
+          *ngFor="let wo of ordersForWc(wc.docId)"
+          [workOrder]="wo"
+          [style.left]="barStyle(wo)['left']"
+          [style.width]="barStyle(wo)['width']"
+          [showBadge]="true"
+        />
+
+        <!-- empty row hint -->
+        <div *ngIf="ordersForWc(wc.docId).length === 0" class="add-hint">
+          Click to add dates
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

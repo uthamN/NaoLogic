@@ -1,0 +1,20 @@
+<div class="bar" [ngClass]="workOrder.data.status" (click)="onBarClick($event)">
+  <span class="bar-name">{{ workOrder.data.name }}</span>
+  <span *ngIf="showBadge" class="bar-badge" [ngClass]="workOrder.data.status">
+    {{ statusLabel }}
+  </span>
+  <button class="menu-btn" (click)="toggleMenu($event)" title="Actions">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+      <circle cx="7" cy="2" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="7" cy="12" r="1.2"/>
+    </svg>
+  </button>
+</div>
+
+<div *ngIf="menuOpen()" class="dropdown" [style.top.px]="dropdownPos().top" [style.left.px]="dropdownPos().left" (click)="$event.stopPropagation()">
+  <button class="drop-item" (click)="edit()">
+    Edit
+  </button>
+  <button class="drop-item danger" (click)="delete()">
+    Delete
+  </button>
+</div>
