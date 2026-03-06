@@ -26,6 +26,8 @@ export class WorkOrderBarComponent {
 
   dropdownPos = signal({ top: 0, left: 0 });
 
+  // Derive open state from the service rather than a local boolean so only
+  // one bar menu can ever be open at a time across the entire grid.
   get menuOpen(): boolean {
     return this.svc.activeMenuId() === this.workOrder.docId;
   }
@@ -41,15 +43,22 @@ export class WorkOrderBarComponent {
   }
 
   onBarClick(e: MouseEvent) {
+    // Ignore clicks that originated inside the three-dot button so opening
+    // the menu doesn't simultaneously trigger an edit panel open.
     if ((e.target as HTMLElement).closest('.menu-btn')) return;
     this.svc.openEditPanel(this.workOrder);
   }
 
   toggleMenu(e: MouseEvent) {
+    // stopPropagation() prevents the document:click listener below from
+    // immediately closing the menu on the same event that opens it.
     e.stopPropagation();
     if (this.menuOpen) {
       this.svc.closeMenu();
     } else {
+      // Capture the button's viewport rect at click time and store as fixed
+      // coordinates. The dropdown uses position:fixed with these values so it
+      // is never clipped by overflow:hidden/auto on any ancestor element.
       const btn = (e.currentTarget as HTMLElement).getBoundingClientRect();
       this.dropdownPos.set({ top: btn.bottom + 4, left: btn.left - 108 });
       this.svc.openMenu(this.workOrder.docId);
@@ -66,6 +75,9 @@ export class WorkOrderBarComponent {
     this.svc.deleteOrder(this.workOrder.docId);
   }
 
+  // Close the menu when the user clicks anywhere outside this component's
+  // host element. Using nativeElement.contains() rather than stopPropagation()
+  // on the menu itself keeps the event flow clean for other listeners on the page.
   @HostListener('document:click', ['$event'])
   onDocClick(e: MouseEvent) {
     if (!this.el.nativeElement.contains(e.target as Node)) {
