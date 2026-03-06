@@ -19,12 +19,29 @@
   min-width: 60px;
   position: relative;
 
-  &:hover { filter: brightness(0.96); }
+  &:hover {
+    filter: brightness(0.96);
+  }
 
-  &.complete        { background: rgba(248, 255, 243, 1); box-shadow: 0 0 0 1px rgba(209, 250, 179, 1);}
-  &.blocked { background: rgba(255, 252, 241, 1); box-shadow: 0 0 0 1px rgba(255, 245, 207, 1);}
-  &.open    { box-shadow: 0 0 0 1px rgba(206, 251, 255, 1);background-color: rgba(242, 254, 255, 1); }
-  &.in-progress     {box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);background-color: rgba(237, 238, 255, 1);}
+  &.complete {
+    background: rgba(248, 255, 243, 1);
+    box-shadow: 0 0 0 1px rgba(209, 250, 179, 1);
+  }
+
+  &.blocked {
+    background: rgba(255, 252, 241, 1);
+    box-shadow: 0 0 0 1px rgba(255, 245, 207, 1);
+  }
+
+  &.open {
+    box-shadow: 0 0 0 1px rgba(206, 251, 255, 1);
+    background-color: rgba(242, 254, 255, 1);
+  }
+
+  &.in-progress {
+    box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);
+    background-color: rgba(237, 238, 255, 1);
+  }
 }
 
 .bar-name {
@@ -52,14 +69,17 @@
     border: 1px solid rgba(206, 251, 255, 1);
     background-color: rgba(228, 253, 255, 1);
   }
+
   &.in-progress {
     background: rgba(214, 216, 255, 1);
     color: rgba(62, 64, 219, 1);
   }
+
   &.complete {
     background: rgba(225, 255, 204, 1);
     color: rgba(8, 162, 104, 1);
   }
+
   &.blocked {
     background: rgba(252, 238, 181, 1);
     color: rgba(177, 54, 0, 1)
@@ -107,8 +127,15 @@
 }
 
 @keyframes dropIn {
-  from { opacity: 0; transform: scale(0.96) translateY(-4px); }
-  to { opacity: 1; transform: scale(1)    translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .drop-item {
@@ -128,5 +155,7 @@
   font-family: inherit;
   transition: background 0.1s;
 
-  &:hover { color: rgba(62, 64, 219, 1) }
+  &:hover {
+    color: rgba(62, 64, 219, 1)
+  }
 }

@@ -15,10 +15,21 @@
   flex-shrink: 0;
 }
 
-.logo { display: flex; align-items: center; }
-.logo-fallback { font-size: 15px; font-weight: 800; letter-spacing: 0.5px; }
-.logo-nao   { color: #4338ca; }
-.logo-logic { color: #111827; }
+.logo {
+  display: flex;
+  align-items: center;
+}
+.logo-fallback {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.logo-nao {
+  color: #4338ca;
+}
+.logo-logic {
+  color: #111827;
+}
 
 /* PAGE */
 .page-content {
@@ -92,7 +103,9 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  &:hover { color: #3730a3; }
+  &:hover {
+    color: #3730a3;
+  }
 }
 
 .zoom-menu {
@@ -104,14 +117,20 @@
   border-radius: 8px;
   padding: 4px;
   min-width: 200px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   z-index: 9999;
   animation: fadeIn 0.1s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .zoom-option {
@@ -128,8 +147,12 @@
   text-align: left;
   font-family: inherit;
   transition: background 0.1s;
-  &:hover  { color: rgba(47, 48, 89, 1);}
-  &.active { color: rgba(62, 64, 219, 1); }
+  &:hover {
+    color: rgba(47, 48, 89, 1);
+  }
+  &.active {
+    color: rgba(62, 64, 219, 1);
+  }
 }
 .zoom-text {
   width: 150px;
@@ -151,7 +174,9 @@
   cursor: pointer;
   font-family: inherit;
   transition: background 0.12s;
-  &:hover { background: #e0e7ff; }
+  &:hover {
+    background: #e0e7ff;
+  }
 }
 
 /* WORKSPACE — timeline + panel side by side */

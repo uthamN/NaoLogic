@@ -1,9 +1,16 @@
 /* Circular Std font (as specified in brief) */
-@import url('https://naologic-com-assets.naologic.com/fonts/circular-std/circular-std.css');
+@import url("https://naologic-com-assets.naologic.com/fonts/circular-std/circular-std.css");
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html, body {
+html,
+body {
   height: 100%;
   font-family: "Circular-Std", "Inter", system-ui, sans-serif;
   background: #fff;

@@ -1,4 +1,8 @@
-:host { display: flex; flex: 1; overflow: hidden; }
+:host {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
 
 .tl-layout {
   display: flex;
@@ -17,6 +21,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .left-header {
   height: 40px;
   display: flex;
@@ -27,6 +32,7 @@
   color: #8f96b0;
   flex-shrink: 0;
 }
+
 .wc-row {
   height: 48px;
   display: flex;
@@ -37,7 +43,10 @@
   color: #1a1a2e;
   flex-shrink: 0;
   transition: background 0.1s;
-  &.hovered { background: #f5f6fc; }
+
+  &.hovered {
+    background: #f5f6fc;
+  }
 }
 
 /* RIGHT SCROLL */
@@ -47,9 +56,17 @@
   overflow-y: hidden;
   scrollbar-width: thin;
   scrollbar-color: #d6d9ec transparent;
-  &::-webkit-scrollbar       { height: 5px; }
-  &::-webkit-scrollbar-thumb { background: #d6d9ec; border-radius: 3px; }
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d6d9ec;
+    border-radius: 3px;
+  }
 }
+
 .tl-inner {
   position: relative;
   display: flex;
@@ -69,6 +86,7 @@
   z-index: 10;
   flex-shrink: 0;
 }
+
 .col-head {
   flex-shrink: 0;
   display: flex;
@@ -79,8 +97,10 @@
   color: rgba(104, 113, 150, 1);
   position: relative;
   user-select: none;
-  &.today-col { }
+
+  &.today-col {}
 }
+
 .current-pill {
   position: absolute;
   top: 40px;
@@ -95,12 +115,18 @@
   white-space: nowrap;
   letter-spacing: 0.1px;
 }
+
 .col-main {
   font-size: 14px;
   font-weight: 500;
   color: #6b7280;
-  .today-col & { color: #4338ca; font-weight: 600; }
+
+  .today-col & {
+    color: #4338ca;
+    font-weight: 600;
+  }
 }
+
 .col-sub {
   font-size: 10px;
   color: #9ca3af;
@@ -127,8 +153,12 @@
   cursor: url('/assets/Pointing.svg') 0 0, crosshair;
   flex-shrink: 0;
   transition: background 0.08s;
-  &.hovered { background: #f5f6fc; }
+
+  &.hovered {
+    background: #f5f6fc;
+  }
 }
+
 .grid-cell {
   flex-shrink: 0;
   height: 100%;
@@ -143,26 +173,29 @@
   border-radius: 8px;
   background-color: rgba(101, 112, 255, 0.1);
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  pointer-events: none;   // ← remove this line
+  pointer-events: none; // ← remove this line
   opacity: 0;
   transition: opacity 0.15s;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  cursor: default;        // ← add this instead
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  cursor: default; // ← add this instead
   display: flex;
   align-items: center;
   justify-content: center;
 
-  .grid-row:hover & { opacity: 1; }
+  .grid-row:hover & {
+    opacity: 1;
+  }
 }
 
 .add-hint-tooltip {
   position: absolute;
   top: -31px;
   left: 50%;
-  transform: translateX(-50%);   // ← centre it above the hint box
+  transform: translateX(-50%); // ← centre it above the hint box
   width: 130px;
   height: 26px;
   display: flex;
@@ -171,10 +204,10 @@
   box-shadow: 0 2px 4px -2px rgba(200, 207, 233, 1), 0 0 16px -8px rgba(230, 235, 240, 1);
   border-radius: 8px;
   background-color: rgba(104, 113, 150, 1);
-  font-size: 11px;               // ← add text styles
+  font-size: 11px; // ← add text styles
   font-weight: 500;
   color: #fff;
-  pointer-events: none;          // ← tooltip itself should not intercept clicks
+  pointer-events: none; // ← tooltip itself should not intercept clicks
   white-space: nowrap;
 }
 

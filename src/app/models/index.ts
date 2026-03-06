@@ -14,7 +14,7 @@ export interface WorkOrderDocument {
     name: string;
     workCenterId: string;
     status: WorkOrderStatus;
-    startDate: string;   // ISO datetime: "YYYY-MM-DDTHH:mm" for hour view, "YYYY-MM-DD" for others
+    startDate: string; // ISO datetime: "YYYY-MM-DDTHH:mm" for hour view, "YYYY-MM-DD" for others
     endDate: string;
   };
 }

@@ -10,7 +10,7 @@ import { ZoomLevel } from './models';
   standalone: true,
   imports: [NgIf, TimelineComponent, CreateEditPanelComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   @ViewChild(TimelineComponent) timeline!: TimelineComponent;
@@ -18,11 +18,16 @@ export class AppComponent {
 
   dropdownOpen = false;
 
-  get zoom() { return this.svc.zoom(); }
+  get zoom() {
+    return this.svc.zoom();
+  }
 
   get zoomLabel(): string {
     const labels: Record<ZoomLevel, string> = {
-      hour: 'Hour', day: 'Day', week: 'Week', month: 'Month'
+      hour: 'Hour',
+      day: 'Day',
+      week: 'Week',
+      month: 'Month',
     };
     return labels[this.zoom];
   }
@@ -37,7 +42,9 @@ export class AppComponent {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  goToToday() { this.timeline?.scrollToToday(); }
+  goToToday() {
+    this.timeline?.scrollToToday();
+  }
 
   @HostListener('document:keydown.escape')
   onEsc() {

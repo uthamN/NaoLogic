@@ -1,4 +1,11 @@
-import { Component, Input, inject, signal, HostListener, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  inject,
+  signal,
+  HostListener,
+  ElementRef,
+} from '@angular/core';
 import { NgIf, NgClass } from '@angular/common';
 import { WorkOrderDocument } from '../../models';
 import { TimelineService } from '../../services/timeline.service';
@@ -8,14 +15,14 @@ import { TimelineService } from '../../services/timeline.service';
   standalone: true,
   imports: [NgIf, NgClass],
   templateUrl: './work-order-bar.component.html',
-  styleUrls: ['./work-order-bar.component.scss']
+  styleUrls: ['./work-order-bar.component.scss'],
 })
 export class WorkOrderBarComponent {
   @Input() workOrder!: WorkOrderDocument;
   @Input() showBadge = true;
 
   svc = inject(TimelineService);
-  el  = inject(ElementRef);
+  el = inject(ElementRef);
 
   dropdownPos = signal({ top: 0, left: 0 });
 
@@ -25,8 +32,10 @@ export class WorkOrderBarComponent {
 
   get statusLabel(): string {
     const map: Record<string, string> = {
-      'open': 'Open', 'in-progress': 'In progress',
-      'complete': 'Complete', 'blocked': 'Blocked'
+      open: 'Open',
+      'in-progress': 'In progress',
+      complete: 'Complete',
+      blocked: 'Blocked',
     };
     return map[this.workOrder.data.status] ?? this.workOrder.data.status;
   }

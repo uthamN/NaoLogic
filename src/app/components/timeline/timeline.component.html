@@ -1,5 +1,4 @@
 <div class="tl-layout">
-
   <!-- LEFT PANEL -->
   <div class="left-panel">
     <div class="left-header">Work Center</div>
@@ -9,13 +8,14 @@
       [class.hovered]="hoveredWcId() === wc.docId"
       (mouseenter)="hoveredWcId.set(wc.docId)"
       (mouseleave)="hoveredWcId.set(null)"
-    >{{ wc.data.name }}</div>
+    >
+      {{ wc.data.name }}
+    </div>
   </div>
 
   <!-- RIGHT SCROLLABLE -->
   <div class="right-scroll" #rightScroll>
     <div class="tl-inner" [style.width.px]="totalWidth()">
-
       <!-- COLUMN HEADER -->
       <div class="tl-header">
         <div
@@ -25,10 +25,15 @@
           [style.width.px]="colWidth()"
         >
           <span *ngIf="col.isToday" class="current-pill">
-            {{ svc.zoom() === 'month' ? 'Current month'
-             : svc.zoom() === 'week'  ? 'Current week'
-             : svc.zoom() === 'hour'  ? 'Current hour'
-             : 'Today' }}
+            {{
+              svc.zoom() === "month"
+                ? "Current month"
+                : svc.zoom() === "week"
+                  ? "Current week"
+                  : svc.zoom() === "hour"
+                    ? "Current hour"
+                    : "Today"
+            }}
           </span>
           <span class="col-main">{{ col.label }}</span>
           <span *ngIf="col.subLabel" class="col-sub">{{ col.subLabel }}</span>
@@ -65,11 +70,9 @@
         />
 
         <div *ngIf="ordersForWc(wc.docId).length === 0" class="add-hint">
-            <span class="add-hint-tooltip">Click to add dates</span>
+          <span class="add-hint-tooltip">Click to add dates</span>
         </div>
       </div>
-
     </div>
   </div>
-
 </div>
